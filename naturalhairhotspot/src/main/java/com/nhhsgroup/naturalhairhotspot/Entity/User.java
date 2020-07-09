@@ -1,3 +1,4 @@
+/*
 package com.nhhsgroup.naturalhairhotspot.Entity;
 
 import java.util.Set;
@@ -16,21 +17,25 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="category")
-@Getter
 @Setter
+@Getter
 @ToString
-public class Category {
+@Table(name="user")
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private String email;
 	
-	@Column(name="category_name")
-	private String categoryName;
+	@Column(name="first_name")
+	private String firstName;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="category")
+	@Column(name="last_name")
+	private String lastName;
+	
+	private String password;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 	private Set<Product> product;
-	
-	
 }
+*/

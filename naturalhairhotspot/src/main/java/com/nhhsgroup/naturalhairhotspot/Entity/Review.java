@@ -1,14 +1,12 @@
 package com.nhhsgroup.naturalhairhotspot.Entity;
 
-import java.util.Set;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -16,21 +14,22 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="category")
 @Getter
 @Setter
 @ToString
-public class Category {
-	
+@Table(name="review")
+public class Review {
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+
+	private String title;
 	
-	@Column(name="category_name")
-	private String categoryName;
+	private String body;
 	
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="category")
-	private Set<Product> product;
-	
+	@ManyToOne
+	@JoinColumn(name="product_prod_num", nullable=false)
+	private Product product;
 	
 }
