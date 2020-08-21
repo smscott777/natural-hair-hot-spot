@@ -9,10 +9,13 @@ import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.nhhsgroup.naturalhairhotspot.Entity.Review;
 
-//@RepositoryRestResource(collectionResourceRel="reviews", path="reviews")
+@RepositoryRestResource(collectionResourceRel="reviews", path="reviews")
 public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	
-	// Return a List/Page of reviews by product number
+	// returns a list of reviews by product number
 	@RestResource(path="prodNum")
 	Page<Review> findByProductProdNum(@Param("prodNum") int prodNum, Pageable page);
+	
+	
+	
 }

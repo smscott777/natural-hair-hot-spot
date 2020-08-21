@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
-import org.springframework.web.bind.annotation.CrossOrigin;  //This is required despite saying it's never used
 
 @Configuration
 public class RepositoryConfig implements RepositoryRestConfigurer{
@@ -25,6 +24,8 @@ public class RepositoryConfig implements RepositoryRestConfigurer{
 		config.getCorsRegistry()
 				.addMapping("/**")
 				.allowedOrigins("http://localhost:4200");
+				
 	}
+
 	
 }

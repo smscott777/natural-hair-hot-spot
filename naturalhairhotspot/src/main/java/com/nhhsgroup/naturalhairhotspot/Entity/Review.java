@@ -1,7 +1,7 @@
 package com.nhhsgroup.naturalhairhotspot.Entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,15 +21,16 @@ import lombok.ToString;
 public class Review {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
 	private String title;
 	
 	private String body;
 	
-	@ManyToOne
-	@JoinColumn(name="product_prod_num", nullable=false)
-	private Product product;
+	// json value "product/{prodNum}"
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="product_prod_num", nullable = false)
+	private Product product;		
 	
 }

@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,15 +37,16 @@ public class Product {
 	
 	private String ingredients;
 	
-	@ManyToOne
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="category_id", nullable=false)
-	private Category category;		// This name appears as the URI 
+	private Category category;	
 /*
 	@ManyToOne
 	@JoinColumn(name="email", nullable=false)
 	private User user;
 */	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="product")
-	private Set<Review> reviews;	// This name appears as the URI /products/1/reviews/1
+	private Set<Review> reviews;	
 
 }
