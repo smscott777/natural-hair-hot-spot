@@ -1,11 +1,16 @@
 
 package com.nhhsgroup.naturalhairhotspot.Entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 //import javax.validation.constraints.Email;
 //import javax.validation.constraints.NotBlank;
@@ -41,8 +46,12 @@ public class User {
 	//@NotBlank(message = "Password is required.")
 	private String password;
 	
-	//@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-	//private Set<Product> product;
+	@ManyToMany
+	@JoinTable(
+		name = "favorite_products",
+		joinColumns = @JoinColumn(name="user_id"),
+		inverseJoinColumns = @JoinColumn(name="product_prod_num"))
+	private List<Product> favoriteProducts;
 	
 	//private boolean enabled;
 }

@@ -27,5 +27,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
 	@RestResource(path="searchByIngredients")
 	Page<Product> findByIngredientsContaining(@Param("ingredient") String ingredients, Pageable page);
 	
+	Product findByProdNum(int prodNum);
 	
 }

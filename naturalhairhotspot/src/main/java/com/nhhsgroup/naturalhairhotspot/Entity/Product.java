@@ -1,5 +1,6 @@
 package com.nhhsgroup.naturalhairhotspot.Entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,15 +39,13 @@ public class Product {
 	
 	private String ingredients;
 	
-	
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name="category_id", nullable=false)
 	private Category category;	
-/*
-	@ManyToOne
-	@JoinColumn(name="email", nullable=false)
-	private User user;
-*/	
+
+	@ManyToMany(mappedBy="favoriteProducts")
+	private List<User> users;
+	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="product")
 	private Set<Review> reviews;	
 
