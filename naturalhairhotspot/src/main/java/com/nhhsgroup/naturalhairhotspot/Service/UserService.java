@@ -1,6 +1,7 @@
 package com.nhhsgroup.naturalhairhotspot.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,6 @@ public class UserService {
 		//user.setPassword(registerRequest.getPassword());
 		user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 		//user.setEnabled(false);
-		
 		userRepository.save(user);
 		
 	}
@@ -43,10 +43,22 @@ public class UserService {
 	// Method to add a product to a "Favorite Products" list for a specific user
 	public void favoriteProduct(FavoriteProductDto favoriteProductDto) {		
 		Product newProduct = productRepository.findByProdNum(favoriteProductDto.getProductProdNum());
-		User user = userRepository.findByUsername(favoriteProductDto.getUsername());
+		Optional<User> optionalUser = userRepository.findByUsername(favoriteProductDto.getUsername());
+		User user = optionalUser.get();
 		List<Product> favoriteProductsList = user.getFavoriteProducts();
 		favoriteProductsList.add(newProduct);
 		
 		userRepository.save(user);
 	}
+/*	
+	// Method to add a product to a "Favorite Products" list for a specific user
+		public void favoriteProduct(FavoriteProductDto favoriteProductDto) {		
+			Product newProduct = productRepository.findByProdNum(favoriteProductDto.getProductProdNum());
+			User user = userRepository.findByUsername(favoriteProductDto.getUsername());
+			List<Product> favoriteProductsList = user.getFavoriteProducts();
+			favoriteProductsList.add(newProduct);
+			
+			userRepository.save(user);
+		}
+*/
 }

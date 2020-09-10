@@ -12,13 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-//import javax.validation.constraints.Email;
-//import javax.validation.constraints.NotBlank;
-//import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
@@ -31,8 +33,8 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	//@Email
-	//@NotEmpty(message = "Email is required.")
+	@Email
+	@NotEmpty(message = "Email is required.")
 	private String email;
 	
 	private String username;
@@ -43,7 +45,7 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	//@NotBlank(message = "Password is required.")
+	@NotBlank(message = "Password is required.")
 	private String password;
 	
 	@ManyToMany
@@ -53,5 +55,8 @@ public class User {
 		inverseJoinColumns = @JoinColumn(name="product_prod_num"))
 	private List<Product> favoriteProducts;
 	
-	//private boolean enabled;
+	private boolean enabled;
+	
+	private String roles;
+
 }
