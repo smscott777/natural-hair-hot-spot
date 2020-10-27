@@ -24,8 +24,5 @@ public class RepositoryConfig implements RepositoryRestConfigurer{
 		config.getCorsRegistry()
 				.addMapping("/**")
 				.allowedOrigins("http://localhost:4200");
-				
-	}
-
-	
+	}	
 }

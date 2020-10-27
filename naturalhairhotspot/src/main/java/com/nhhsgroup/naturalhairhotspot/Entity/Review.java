@@ -28,7 +28,7 @@ public class Review {
 	
 	private String body;
 	
-	// json value "product/{prodNum}"
+	// json value "product:" "product/{prodNum}"
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="product_prod_num", nullable = false)
 	private Product product;		
