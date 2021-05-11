@@ -3,6 +3,7 @@ package com.nhhsgroup.naturalhairhotspot.Controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import com.nhhsgroup.naturalhairhotspot.DTO.AuthenticationResponse;
 import com.nhhsgroup.naturalhairhotspot.DTO.FavoriteProductDto;
 import com.nhhsgroup.naturalhairhotspot.DTO.LoginRequest;
 import com.nhhsgroup.naturalhairhotspot.DTO.RegisterRequest;
+import com.nhhsgroup.naturalhairhotspot.Entity.Review;
 import com.nhhsgroup.naturalhairhotspot.Service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -31,8 +33,14 @@ public class UserController {
 	 */
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
-		userService.signUp(registerRequest);
-		return new ResponseEntity<>("New User Registration Successful", HttpStatus.OK);
+		String message;
+		message = userService.signUp(registerRequest);
+		if(message.equals("New User Registration Successful")) {
+			return new ResponseEntity<>(message, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
@@ -56,5 +64,10 @@ public class UserController {
 	public ResponseEntity<String> favoriteProduct(@RequestBody FavoriteProductDto favoriteProductDto) {
 		userService.favoriteProduct(favoriteProductDto);
 		return new ResponseEntity<>("Favorited Product Successfully: " + favoriteProductDto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/username")
+	public void getUsernameByReview(@RequestBody int reviewId) {
+		userService.getUsernameByReview(reviewId);
 	}
 }

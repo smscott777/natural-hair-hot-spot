@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -32,5 +33,9 @@ public class Review {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="product_prod_num", nullable = false)
 	private Product product;		
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 }

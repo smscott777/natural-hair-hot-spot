@@ -3,6 +3,7 @@ package com.nhhsgroup.naturalhairhotspot.Entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -33,7 +35,6 @@ public class User {
 	private int id;
 	
 	@Email
-	@NotEmpty(message = "Email is required.")
 	private String email;
 	
 	private String username;
@@ -44,7 +45,6 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@NotBlank(message = "Password is required.")
 	private String password;
 	
 	@ManyToMany
@@ -53,6 +53,9 @@ public class User {
 		joinColumns = @JoinColumn(name="user_id"),
 		inverseJoinColumns = @JoinColumn(name="product_prod_num"))
 	private List<Product> favoriteProducts;
+	
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	private List<Review> reviews;
 	
 	private boolean enabled;
 	

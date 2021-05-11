@@ -1,6 +1,5 @@
 package com.nhhsgroup.naturalhairhotspot.DTO;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

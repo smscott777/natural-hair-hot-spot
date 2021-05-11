@@ -10,26 +10,26 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.nhhsgroup.naturalhairhotspot.DTO.RegisterRequest;
 import com.nhhsgroup.naturalhairhotspot.DTO.AuthenticationResponse;
 import com.nhhsgroup.naturalhairhotspot.DTO.FavoriteProductDto;
 import com.nhhsgroup.naturalhairhotspot.DTO.LoginRequest;
 import com.nhhsgroup.naturalhairhotspot.Entity.Product;
+import com.nhhsgroup.naturalhairhotspot.Entity.Review;
 import com.nhhsgroup.naturalhairhotspot.Entity.User;
 import com.nhhsgroup.naturalhairhotspot.Repository.ProductRepository;
 import com.nhhsgroup.naturalhairhotspot.Repository.UserRepository;
-
 import lombok.AllArgsConstructor;
 
-@Transactional			//For interacting w/ relational database
-@AllArgsConstructor		//Injects thru constructors, rather than fields using @Autowired
+@Transactional			// For interacting w/ relational database
+@AllArgsConstructor		// Injects thru constructors, rather than fields using @Autowired
 @Service
 public class UserService {
 	
 	private PasswordEncoder passwordEncoder;
 	private UserRepository userRepository;
 	private ProductRepository productRepository;
+	private Validator userValidator;
 	private final AuthenticationManager authenticationManager;
 
 	/**
@@ -37,19 +37,27 @@ public class UserService {
 	 * @param registerRequest The form supplying an email, username, password,
 	 * first name, and last name.
 	 */
-	public void signUp(RegisterRequest registerRequest) {
-		User user = new User();
-		user.setEmail(registerRequest.getEmail());
-		user.setUsername(registerRequest.getUsername());
-		user.setFirstName(registerRequest.getFirstName());
-		user.setLastName(registerRequest.getLastName());
-		user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-		user.setEnabled(true);
-		userRepository.save(user);	
+	public String signUp(RegisterRequest registerRequest) {
+		String validationResponse = "";	
+		validationResponse = userValidator.validate(registerRequest);
+		
+		if (validationResponse.equals("New User Registration Successful")) {
+			User user = new User();
+			user.setEmail(registerRequest.getEmail());
+			user.setUsername(registerRequest.getUsername());
+			user.setFirstName(registerRequest.getFirstName());
+			user.setLastName(registerRequest.getLastName());
+			user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+			user.setEnabled(true);
+			user.setRoles("ROLE_USER");
+			userRepository.save(user);
+			return validationResponse;
+		}	
+		else return validationResponse;
 	}
 	
 	/**
-	 * Authenticates a user using username/password authenication.
+	 * Authenticates a user using username/password authentication.
 	 * @param loginRequest The form supplying a username and password for authentication.
 	 * @return The authentication response.
 	 */
@@ -75,5 +83,11 @@ public class UserService {
 		favoriteProductsList.add(newProduct);	// currently deletes the current list then replaces it with new list
 												// results in granting old entries new id's as well as the new entry
 		userRepository.save(user);	
+	}
+	
+	public String getUsernameByReview(int reviewId) {
+		User user = userRepository.findByReviewsId(reviewId);
+		String username = user.getUsername();
+		return username;
 	}
 }
