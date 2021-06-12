@@ -1,11 +1,23 @@
 package com.nhhsgroup.naturalhairhotspot.Service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.nhhsgroup.naturalhairhotspot.DTO.FavoriteProductDto;
 import com.nhhsgroup.naturalhairhotspot.DTO.RegisterRequest;
+import com.nhhsgroup.naturalhairhotspot.Entity.Product;
+import com.nhhsgroup.naturalhairhotspot.Repository.ProductRepository;
+import com.nhhsgroup.naturalhairhotspot.Repository.UserRepository;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 @Service
 public class Validator {
+	
+	private ProductRepository productRepository;
+	private UserRepository userRepository;
 
 	public String validate(RegisterRequest registerRequest) {
 		String email = registerRequest.getEmail();
@@ -32,8 +44,25 @@ public class Validator {
 		else if(password.isEmpty()) {
 			return "Password can not be blank.";
 		}
+		else if(userRepository.findByUsername(username) != null) {
+			return "Username not available.";
+		}
 		else {
 			return "New User Registration Successful";
 		}
+	}
+
+	public String validate(List<Product> favoriteProductsList, FavoriteProductDto favoriteProductDto) {
+		// Prevents duplicate favorite products.
+		int prodNum = favoriteProductDto.getProductProdNum();
+		Product product = productRepository.findByProdNum(prodNum);
+				
+		if(favoriteProductsList.contains(product)) {
+			return "fail";
+		}
+		else {
+			return "success";
+		}
+		
 	}
 }

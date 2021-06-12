@@ -1,8 +1,16 @@
 package com.nhhsgroup.naturalhairhotspot.Controller;
 
+import java.security.Principal;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +20,6 @@ import com.nhhsgroup.naturalhairhotspot.DTO.AuthenticationResponse;
 import com.nhhsgroup.naturalhairhotspot.DTO.FavoriteProductDto;
 import com.nhhsgroup.naturalhairhotspot.DTO.LoginRequest;
 import com.nhhsgroup.naturalhairhotspot.DTO.RegisterRequest;
-import com.nhhsgroup.naturalhairhotspot.Entity.Review;
 import com.nhhsgroup.naturalhairhotspot.Service.UserService;
 import lombok.AllArgsConstructor;
 
@@ -29,7 +36,8 @@ public class UserController {
 	 * @param registerRequest The form supplying an email, username, password,
 	 * first name, and last name.
 	 * @return A response entity indicating successful registration with a message
-	 * and Http status code.
+	 * and Http status code. This body of this response entity is the value of 'data' 
+	 * on the front end app.
 	 */
 	@PostMapping("/signup")
 	public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
@@ -62,12 +70,57 @@ public class UserController {
 	 */
 	@PostMapping("/favoriteProduct")
 	public ResponseEntity<String> favoriteProduct(@RequestBody FavoriteProductDto favoriteProductDto) {
-		userService.favoriteProduct(favoriteProductDto);
-		return new ResponseEntity<>("Favorited Product Successfully: " + favoriteProductDto, HttpStatus.OK);
+		String message;
+		message = userService.favoriteProduct(favoriteProductDto);
+		
+		if(message.equals("success")) {
+			return new ResponseEntity<>("Saved product.", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>("Product already saved.", HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
-	@GetMapping("/username")
-	public void getUsernameByReview(@RequestBody int reviewId) {
-		userService.getUsernameByReview(reviewId);
+	/**
+	 * Maps the DELETE request to delete a product from the user's Favorite Products list.
+	 * @param productProdNum The product number of the product to be deleted.
+	 * @param username The username of the user whose list to alter.
+	 * @return A response entity indicating successful deletion.
+	 */
+	@RestResource	// Angular client accepts params, not a body on Delete.
+	@DeleteMapping("/favoriteProduct")
+	public ResponseEntity<String> deleteFavProduct(@Param("productProdNum") String productProdNum, @Param("username") String username) {
+		int intProdNum = Integer.parseInt(productProdNum);
+		
+		userService.deleteFavProduct(intProdNum, username);
+		
+		return new ResponseEntity<>("Deleted product.", HttpStatus.OK);
 	}
+	
+	/**
+	 * Maps the GET request to retrieve the principal user if they are reachable.
+	 * Represents a way to check if the user is in fact logged in.
+	 * @param user The principal.
+	 * @return The principal.
+	 */
+	@GetMapping("/user")
+	public Principal user(Principal user) {
+		if(user != null) {
+			System.out.println("Name: " + user.getName());
+		}
+		else {
+			System.out.println("Principal user is null");
+		}
+		return user;
+	}
+	
+	/**
+	 * Maps the GET request to logout a user.
+	 * @param request The HttpServlet request.
+	 * @param response The HttpServlet response.
+	 */
+	@GetMapping("/logout")
+	public void logout(HttpServletRequest request, HttpServletResponse response) {
+		userService.logout(request, response);
+	}	
 }
