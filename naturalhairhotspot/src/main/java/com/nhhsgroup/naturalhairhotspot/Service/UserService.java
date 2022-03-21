@@ -57,9 +57,8 @@ public class UserService {
 			user.setEnabled(true);
 			user.setRoles("ROLE_USER");
 			userRepository.save(user);
-			return validationResponse;
 		}	
-		else return validationResponse;
+		return validationResponse;
 	}
 	
 	/**
@@ -82,13 +81,13 @@ public class UserService {
 	public void logout(HttpServletRequest request, HttpServletResponse response) {
 		SecurityContextHolder.clearContext();
 		HttpSession session = request.getSession(false);
-		
-		if(session != null) {
+
+		if (session != null) {
 			session.invalidate();
 		}
-		
+
 		try {
-			for(Cookie cookie : request.getCookies()) {
+			for (Cookie cookie : request.getCookies()) {
 				cookie.setMaxAge(0);
 			}
 		} catch (Exception e) {
@@ -110,15 +109,12 @@ public class UserService {
 		
 		String validationResponse = validator.validate(favoriteProductsList, favoriteProductDto);
 		
-		if(validationResponse.equals("success")) {
-			favoriteProductsList.add(newProduct);	
-													
+		if (validationResponse.equals("success")) {
+			favoriteProductsList.add(newProduct);
+
 			userRepository.save(user);
-			return validationResponse;
 		}
-		else {
-			return validationResponse;
-		}	
+		return validationResponse;
 	}
 	
 	/**
@@ -127,11 +123,11 @@ public class UserService {
 	 * @param username The username of the user whose list to alter.
 	 */
 	public void deleteFavProduct(int prodNum, String username) {
-		Product product = productRepository.findByProdNum(prodNum);	// select the new product to delete
-		Optional<User> optionalUser = userRepository.findByUsername(username);	// select the user 
-		User user = optionalUser.get();	// get the user as a User object, not optional
-		List<Product> favoriteProductsList = user.getFavoriteProducts();	// get the user's current FavProducts list
-		
+		Product product = productRepository.findByProdNum(prodNum); // select the new product to delete
+		Optional<User> optionalUser = userRepository.findByUsername(username); // select the user
+		User user = optionalUser.get(); // get the user as a User object, not optional
+		List<Product> favoriteProductsList = user.getFavoriteProducts(); // get the user's current FavProducts list
+
 		favoriteProductsList.remove(product);
 	}
 }

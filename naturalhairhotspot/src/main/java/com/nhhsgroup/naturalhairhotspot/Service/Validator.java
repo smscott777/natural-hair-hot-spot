@@ -26,28 +26,21 @@ public class Validator {
 		String lastName = registerRequest.getLastName();
 		String password = registerRequest.getPassword();
 		
-		if(email.isEmpty()) {
+		if (email.isEmpty()) {
 			return "Email can not be blank.";
-		}
-		else if(!email.contains("@")) {
+		} else if (!email.contains("@")) {
 			return "Not a valid email address.";
-		}
-		else if(username.isEmpty()) {
+		} else if (username.isEmpty()) {
 			return "Username can not be blank.";
-		}
-		else if(firstName.isEmpty()) {
+		} else if (firstName.isEmpty()) {
 			return "First name can not be blank.";
-		}
-		else if(lastName.isEmpty()) {
+		} else if (lastName.isEmpty()) {
 			return "Last name can not be blank.";
-		}
-		else if(password.isEmpty()) {
+		} else if (password.isEmpty()) {
 			return "Password can not be blank.";
-		}
-		else if(userRepository.findByUsername(username) != null) {
+		} else if (userRepository.findByUsername(username) != null) {
 			return "Username not available.";
-		}
-		else {
+		} else {
 			return "New User Registration Successful";
 		}
 	}
@@ -57,12 +50,10 @@ public class Validator {
 		int prodNum = favoriteProductDto.getProductProdNum();
 		Product product = productRepository.findByProdNum(prodNum);
 				
-		if(favoriteProductsList.contains(product)) {
+		if (favoriteProductsList.contains(product)) {
 			return "fail";
-		}
-		else {
+		} else {
 			return "success";
 		}
-		
 	}
 }

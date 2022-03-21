@@ -61,7 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 							.mvcMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()	// Authorizes anyone to attempt to login
 							.mvcMatchers(HttpMethod.POST, "/api/v1/auth/favoriteProduct").hasAnyRole("USER", "ADMIN")	// Authorizes users and admins to favorite a product
 							.mvcMatchers(HttpMethod.DELETE, "/api/v1/auth/favoriteProduct").hasAnyRole("USER", "ADMIN")	// Authorizes users and admins to delete a fav product
-							//.mvcMatchers(HttpMethod.GET, "/api/v1/users/search/searchByReviews/**").permitAll()
 							.mvcMatchers(HttpMethod.GET, "/api/v1/auth/logout").permitAll()
 							.anyRequest().denyAll()	// Denies any other requests not mentioned
 							.and()

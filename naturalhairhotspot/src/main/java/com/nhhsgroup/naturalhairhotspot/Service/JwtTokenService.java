@@ -31,12 +31,12 @@ public class JwtTokenService {
                 .sign(this.hmac512);
     }
 
-    public String validateTokenAndGetUsername(final String token) {
-        try {
-            return verifier.verify(token).getSubject();
-        } catch (final JWTVerificationException verificationEx) {
-            System.out.println("token invalid: " + verificationEx.getMessage());
-            return null;
-        }
-    }
+	public String validateTokenAndGetUsername(final String token) {
+		try {
+			return verifier.verify(token).getSubject();
+		} catch (final JWTVerificationException verificationEx) {
+			System.out.println("token invalid: " + verificationEx.getMessage());
+			return null;
+		}
+	}
 }

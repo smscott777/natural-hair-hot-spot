@@ -13,9 +13,6 @@ import com.nhhsgroup.naturalhairhotspot.Entity.Review;
 public interface ReviewRepository extends JpaRepository<Review, Integer>{
 	
 	// returns a list of reviews by product number
-	@RestResource(path="prodNum")
-	Page<Review> findByProductProdNum(@Param("prodNum") int prodNum, Pageable page);
-	
-	
-	
+	@RestResource(path = "prodNum")
+	Page<Review> findByProductProdNum(@Param("prodNum") int prodNum, Pageable page);	
 }

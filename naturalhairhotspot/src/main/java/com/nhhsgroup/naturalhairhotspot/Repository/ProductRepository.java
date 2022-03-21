@@ -13,25 +13,23 @@ import com.nhhsgroup.naturalhairhotspot.Entity.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer>{
-	
-	
+
 	// Returns a list of products by category
-	@RestResource(path="categoryid")
+	@RestResource(path = "categoryid")
 	Page<Product> findByCategoryId(@Param("id") int id, Pageable page);
-	
+
 	// Returns a list of products by name containing
-	@RestResource(path="searchbykeyword")
-	Page<Product> findByNameContaining(@Param("name") String keyword,  Pageable page);
-	
+	@RestResource(path = "searchbykeyword")
+	Page<Product> findByNameContaining(@Param("name") String keyword, Pageable page);
+
 	// Returns a list of products containing an ingredient
-	@RestResource(path="searchByIngredients")
+	@RestResource(path = "searchByIngredients")
 	Page<Product> findByIngredientsContaining(@Param("ingredient") String ingredients, Pageable page);
-	
+
 	// Finds a product by the product number
 	Product findByProdNum(int prodNum);
-	
+
 	// Returns a list of products favorited by the given user
-	@RestResource(path="favoriteProducts")
-	List<Product> findByUsersUsername(@Param("username")String username);
-	
+	@RestResource(path = "favoriteProducts")
+	List<Product> findByUsersUsername(@Param("username") String username);
 }

@@ -23,6 +23,8 @@ public class RepositoryConfig implements RepositoryRestConfigurer{
 		
 		config.getCorsRegistry()
 				.addMapping("/**")
-				.allowedOrigins("http://localhost:4200");
+				.allowedOrigins("http://localhost:4200", 
+								"https://www.naturalhairhotspot.com",
+								"https://naturalhairhotspot.com");
 	}	
 }

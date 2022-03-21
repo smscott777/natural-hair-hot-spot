@@ -13,6 +13,6 @@ import com.nhhsgroup.naturalhairhotspot.Entity.User;
 public interface UserRepository extends JpaRepository<User, Integer>{
 	Optional<User> findByUsername(String username);
 	
-	@RestResource(path="searchByReviews")
+	@RestResource(path = "searchByReviews")
 	User findByReviewsId(@Param("id") int id);
 }
